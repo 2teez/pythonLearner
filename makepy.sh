@@ -10,13 +10,31 @@ function help() {
   echo "=================="
   echo "-d  to delete stated script"
   echo "-h  to display this help message"
+  echo "-o  make a generic python script"
   echo "-r  to run the stated script"
   echo "-p  to make a python script"
 }
 
+function make_py() {
+  filename="${1}"
+  extension="${filename##*.}"
+  [[ -z "${extension}" ]] || [[ "${extension}" != ".py" ]] && filename="${filename}.py"
+  echo "Creating ${filename}"
+  echo "#!/usr/bin/env python3
+
+def main() -> None:
+    print(\"Start Here!\")
+
+if __name__ == \"__main__\":
+    main()
+  " > "${filename}"
+  # make the script executable
+  chmod +x "${filename}"
+}
+
 [[ "${#}" -ne 2 ]] && help
 
-optstring="d:r:p:h"
+optstring="d:r:p:o:h"
 while getopts "${optstring}" opt; do
   case "$opt" in
    d)
@@ -46,10 +64,19 @@ while getopts "${optstring}" opt; do
      filename="${OPTARG}"
      python "${filename}"
      ;;
+   o)
+     filename="${OPTARG,,}"
+     echo "Creating ${filename}"
+     make_py "${filename}"
+     python "${filename}"
+     ;;
    p)
      filename="${OPTARG,,}"
      extension="${filename##*.}"
-     [[ -z "${extension}" ]] || [[ "${extension}" != ".py" ]] && filename="${filename}.py"
+     echo "filename: ${filename}, extension: ${extension}"
+     if [[ -z "${extension}" ]] || [[ "${extension}" != ".py" ]]; then
+       filename="${filename}.py"
+     fi
 
      # search to see if the file exist in the present folder
      my_pwd=$(dirname "${filename}")
