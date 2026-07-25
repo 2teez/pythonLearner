@@ -6,8 +6,10 @@
 function help() {
   script="${0}"
   echo "./script <options> <filename>"
-  echo "Options Uses:"
+  echo "Avaliable Options"
+  echo "=================="
   echo "-d  to delete stated script"
+  echo "-h  to display this help message"
   echo "-r  to run the stated script"
   echo "-p  to make a python script"
 }
