@@ -1,2 +1,6 @@
 .DS_Store
 *.pyc
+.bsp
+.scala-build
+com
+.metals
