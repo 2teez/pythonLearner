@@ -1,7 +1,27 @@
 #!/usr/bin/env python3
 
+"""
+Function for calculating factorial using recursion.
+>> fac(5)
+120
+"""
+
 
 def fac(n: int) -> int:
+    if n <= 0:
+        return 1
+    else:
+        return n * fac(n - 1)
+
+
+"""
+Function for calculating factorial using tail recursion.
+>> tail_fac(5)
+120
+"""
+
+
+def tail_fac(n: int) -> int:
     def helper(n: int, acc: int) -> int:
         if n == 0:
             return acc
@@ -22,7 +42,7 @@ def main() -> None:
     while True:
         try:
             input = get_number(from_user("Enter a number:"))
-            print(fac(input))
+            print(tail_fac(input))
         except ValueError:
             print("Invalid input. Please enter a number.")
 
