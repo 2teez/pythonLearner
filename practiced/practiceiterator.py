@@ -12,18 +12,17 @@ class GeneratePrimeNumbers:
     def __iter__(self):
         return self
 
-    @staticmethod
-    def _is_prime_number(n: int) -> bool:
-        if n < 2:
-            return False
-        for divisor in range(2, isqrt(n) + 1):
-            if n % divisor == 0:
-                return False
-        return True
-
     def __next__(self):
+        def _is_prime_number(n: int) -> bool:
+            if n < 2:
+                return False
+            for divisor in range(2, isqrt(n) + 1):
+                if n % divisor == 0:
+                    return False
+            return True
+
         while True:
-            if self._is_prime_number(self.prime_number):
+            if _is_prime_number(self.prime_number):
                 self.counter += 1
 
                 if self.counter > self.number_of:
@@ -37,7 +36,7 @@ class GeneratePrimeNumbers:
 
 
 def main() -> None:
-    print(list(GeneratePrimeNumbers(500)))
+    print(list(GeneratePrimeNumbers(5)))
 
 
 if __name__ == "__main__":
