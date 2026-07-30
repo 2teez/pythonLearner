@@ -11,7 +11,9 @@ class MyLooger:
     def log(self, message: str) -> None:
         if self.file is None:
             raise ValueError("Log file is not open")
-        self.file.write(f"{datetime.datetime.now(tz=datetime.timezone.utc)} {message}")
+        self.file.write(
+            f"{datetime.datetime.now(tz=datetime.timezone.utc)} {message}\n"
+        )
 
     def __enter__(self):
         self.file = open(self.filename, "w")
