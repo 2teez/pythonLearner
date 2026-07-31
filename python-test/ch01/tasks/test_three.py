@@ -2,6 +2,8 @@
 
 from collections import namedtuple
 
+import pytest
+
 Tasks = namedtuple("Tasks", ["summary", "owner", "done", "id"])
 Tasks.__new__.__defaults__ = (None, None, False, None)
 
@@ -13,6 +15,7 @@ def test_defaults():
     assert t1 == t2
 
 
+@pytest.mark.run_these_please
 def test_memeber_access():
     """Accessing members should return the default values"""
     t = Tasks("buy milk", "brian")
