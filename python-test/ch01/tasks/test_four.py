@@ -2,6 +2,8 @@
 
 from collections import namedtuple
 
+import pytest
+
 Tasks = namedtuple("Tasks", ["summary", "owner", "done", "id"])
 Tasks.__new__.__defaults__ = (None, None, False, None)
 
@@ -14,6 +16,7 @@ def test_asdict():
     assert t_dict == expected
 
 
+@pytest.mark.run_these_please
 def test_replace():
     """Test that replace() returns a new Tasks object with updated values."""
     t = Tasks("finish book", "brian", False)
