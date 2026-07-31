@@ -13,6 +13,7 @@ function help() {
   echo "-o  make a generic python script"
   echo "-r  to run the stated script"
   echo "-p  to make a python script"
+  echo "-t  to make a python test script"
 }
 
 function make_py() {
@@ -34,7 +35,7 @@ if __name__ == \"__main__\":
 
 [[ "${#}" -ne 2 ]] && help
 
-optstring="d:r:p:o:h"
+optstring="d:r:p:o:t:h"
 while getopts "${optstring}" opt; do
   case "$opt" in
    d)
@@ -108,6 +109,13 @@ while getopts "${optstring}" opt; do
      # make the script executable
      chmod +x "${filename}"
      ;;
+   t)
+       # make a test file
+       filename="${OPTARG}"
+       filename="test_${filename}"
+       make_py "${filename}"
+       python "${filename}"
+       ;;
    *) echo "Invalid options"
      exit 1
      ;;
