@@ -6,3 +6,4 @@ com
 .metals
 __pycache__
 .pytest_cache
+.venv
