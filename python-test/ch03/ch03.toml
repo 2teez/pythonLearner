@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools >=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[package]
+name = "tasks"
+version = "0.0.1"
+authors = ["omitida"]
+description = "A simple task management CLI"
+requires-python = ">=3.10"
