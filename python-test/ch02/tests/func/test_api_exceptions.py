@@ -28,3 +28,17 @@ def test_get_raises():
     """Make sure get() raises an exception with invalid task_id"""
     with pytest.raises(TypeError):
         tasks.get(tasks_id="123")
+
+
+class TestUpdate:
+    """Test expected exceptions with tasks.update()."""
+
+    def test_bad_id(self):
+        """a non-int id should raise an exception."""
+        with pytest.raises(TypeError):
+            tasks.update(task_id={"dict instead": 1}, task=tasks.Tasks())
+
+    def test_bad_task(self):
+        """a non-Task task should raise an exception."""
+        with pytest.raises(TypeError):
+            tasks.update(task_id=1, task="not a task")
