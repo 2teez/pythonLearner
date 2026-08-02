@@ -14,6 +14,7 @@ function help() {
   echo "-r  to run the stated script"
   echo "-p  to make a python script"
   echo "-t  to make a python test script"
+  echo "-T  to make a python testing task."
 }
 
 function make_py() {
@@ -35,7 +36,7 @@ if __name__ == \"__main__\":
 
 [[ "${#}" -ne 2 ]] && help
 
-optstring="d:r:p:o:t:h"
+optstring="d:r:p:o:t:T:h"
 while getopts "${optstring}" opt; do
   case "$opt" in
    d)
@@ -115,6 +116,50 @@ while getopts "${optstring}" opt; do
        filename="test_${filename}"
        make_py "${filename}"
        python "${filename}"
+       ;;
+    T)
+       # creating a test task project
+       filename="${OPTARG}"
+       #
+       # remove file extensions if one exists
+       [ "${filename}" != "${filename%.*}" ] && filename="${filename%.*}"
+       #
+       # create the project directory
+       if [ ! -d "${filename}" ]; then
+           mkdir "${filename}"
+       fi
+       cd "${filename}" || exit
+       # make a virtual environment
+       virtual_env=".venv"
+       python -m venv "${virtual_env}"
+       #
+       # activate the virtual environment
+       source "${virtual_env}/bin/activate"
+       # install dependencies
+       pip install pytest pytest-watch
+       # make directory for src, tests, and other project files
+       mkdir -p src tests tests/func tests/unit
+       # create init files for tests and src directories
+       touch tests/func/__init__.py tests/unit/__init__.py src/__init__.py
+       # create setup.py file
+       echo "from setuptools import setup" >> setup.py
+       echo "" >> setup.py
+       echo "if __name__ == '__main__':" >> setup.py
+       echo "    setup()" >> setup.py
+
+       # create toml file
+       # [build-system] section
+       echo "[build-system]" >> "${filename}.toml"
+       echo "requires = [\"setuptools >=68.0, wheel\"]" >> "${filename}.toml"
+       echo "build-backend = \"setuptools.build_meta\"" >> "${filename}.toml"
+       # [package] section
+       echo "[package]" >> "${filename}.toml"
+       echo "name = \"${filename}\"" >> "${filename}.toml"
+       echo "version = \"0.1.0\"" >> "${filename}.toml"
+       echo "description = \"\"" >> "${filename}.toml"
+       echo "authors = []" >> "${filename}.toml"
+       touch "${filename}.toml"
+
        ;;
    *) echo "Invalid options"
      exit 1
