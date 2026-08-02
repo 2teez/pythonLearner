@@ -142,24 +142,21 @@ while getopts "${optstring}" opt; do
        # create init files for tests and src directories
        touch tests/func/__init__.py tests/unit/__init__.py src/__init__.py
        # create setup.py file
-       echo "from setuptools import setup" >> setup.py
-       echo "" >> setup.py
-       echo "if __name__ == '__main__':" >> setup.py
-       echo "    setup()" >> setup.py
+       echo "from setuptools import setup
+
+       if __name__ == '__main__':
+           setup()" > setup.py
 
        # create toml file
        # [build-system] section
-       echo "[build-system]" >> "${filename}.toml"
-       echo "requires = [\"setuptools >=68.0, wheel\"]" >> "${filename}.toml"
-       echo "build-backend = \"setuptools.build_meta\"" >> "${filename}.toml"
+       echo "[build-system]
+       requires = [\"setuptools >=68.0, wheel\"]
+       build-backend = \"setuptools.build_meta\"
        # [package] section
-       echo "[package]" >> "${filename}.toml"
-       echo "name = \"${filename}\"" >> "${filename}.toml"
-       echo "version = \"0.1.0\"" >> "${filename}.toml"
-       echo "description = \"\"" >> "${filename}.toml"
-       echo "authors = []" >> "${filename}.toml"
-       touch "${filename}.toml"
-
+       [package]
+       name = \"${filename}\"
+       description = \"\"
+       authors = []" > "${filename}.toml"
        ;;
    *) echo "Invalid options"
      exit 1
