@@ -144,19 +144,19 @@ while getopts "${optstring}" opt; do
        # create setup.py file
        echo "from setuptools import setup
 
-       if __name__ == '__main__':
-           setup()" > setup.py
+if __name__ == '__main__':
+    setup()" > setup.py
 
        # create toml file
        # [build-system] section
        echo "[build-system]
-       requires = [\"setuptools >=68.0, wheel\"]
-       build-backend = \"setuptools.build_meta\"
-       # [package] section
-       [package]
-       name = \"${filename}\"
-       description = \"\"
-       authors = []" > "${filename}.toml"
+requires = [\"setuptools >=68.0, wheel\"]
+build-backend = \"setuptools.build_meta\"
+# [package] section
+[package]
+name = \"${filename}\"
+description = \"\"
+authors = []" > "pyproject.toml"
        ;;
    *) echo "Invalid options"
      exit 1
